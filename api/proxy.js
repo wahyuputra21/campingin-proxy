@@ -1,12 +1,18 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Only POST method is allowed' });
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end(); // preflight OK
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Only POST method is allowed" });
   }
 
   try {
-    const googleScriptURL = "https://script.google.com/macros/s/AKfycbzeODg7HvieHRT_fplwaSI_tgcU3uXNht7MdKj9cZ0j/dev";
-
-    const response = await fetch(googleScriptURL, {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbzeODg7HvieHRT_fplwaSI_tgcU3uXNht7MdKj9cZ0j/dev", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,8 +23,7 @@ export default async function handler(req, res) {
     const result = await response.json();
     res.status(200).json(result);
   } catch (error) {
-    console.error("Error forwarding request to Google Script:", error);
-    res.status(500).json({ error: "Something went wrong in the proxy." });
+    console.error("Proxy error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
-
