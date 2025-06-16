@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") {
-    return res.status(200).end(); // preflight OK
+    return res.status(200).end(); // Preflight OK
   }
 
   if (req.method !== "POST") {
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzeODg7HvieHRT_fplwaSI_tgcU3uXNht7MdKj9cZ0j/dev", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbxadkxflGurvCHlqIbwlkFR2cpwQYCtMKrgi_8lwRLXUAUw0pd0zp5vioG7513ERQD7Rw/exec", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,10 +20,18 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body),
     });
 
+    const contentType = response.headers.get("content-type");
+
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      return res.status(500).json({ error: "Invalid response from Apps Script", responseText: text });
+    }
+
     const result = await response.json();
     res.status(200).json(result);
+
   } catch (error) {
     console.error("Proxy error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error", detail: error.message });
   }
 }
