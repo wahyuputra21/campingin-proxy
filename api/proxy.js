@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(req.data),
+      body: JSON.stringify(req.body),
     });
 
     const contentType = response.headers.get("content-type");
