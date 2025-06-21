@@ -29,7 +29,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzaga-CpjRY8Yq7Gdhoqmw5jmWSaLRqRH2KMXu7uMYx-spYfVdCci6ySY6EeyyxTT6a4Q/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwIKKkvlgF51sEoZnXuN3shCRQ4W8VjPS7558lJU3wlE0zqnukyUFY2ATdIcj6DMcqGcA/exec", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
