@@ -1,10 +1,8 @@
 export default async function handler(req, res) {
-  // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // Preflight
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
@@ -16,6 +14,7 @@ export default async function handler(req, res) {
   const {
     nama,
     no_wa,
+    alamat, // ✅ ditambahkan
     barang,
     tanggal_ambil,
     tanggal_kembali,
@@ -23,8 +22,7 @@ export default async function handler(req, res) {
     total_harga
   } = req.body;
 
-  // Validasi sederhana
-  if (!nama || !no_wa || !barang || !tanggal_ambil || !tanggal_kembali || !lama_sewa || !total_harga) {
+  if (!nama || !no_wa || !alamat || !barang || !tanggal_ambil || !tanggal_kembali || !lama_sewa || !total_harga) {
     return res.status(400).json({ error: "Data tidak lengkap" });
   }
 
@@ -37,6 +35,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         nama,
         no_wa,
+        alamat, // ✅ ditambahkan
         barang,
         tanggal_ambil,
         tanggal_kembali,
