@@ -1,4 +1,5 @@
 export default async function handler(req, res) {
+  // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -14,35 +15,39 @@ export default async function handler(req, res) {
   const {
     nama,
     no_wa,
-    alamat, // ✅ ditambahkan
+    alamat,
     barang,
+    detail_pesanan, // ✅ TAMBAHKAN INI
     tanggal_ambil,
     tanggal_kembali,
     lama_sewa,
     total_harga
   } = req.body;
 
-  if (!nama || !no_wa || !alamat || !barang || !tanggal_ambil || !tanggal_kembali || !lama_sewa || !total_harga) {
+  // Validasi
+  if (!nama || !no_wa || !alamat || !barang || !detail_pesanan || !tanggal_ambil || !tanggal_kembali || !lama_sewa || !total_harga) {
     return res.status(400).json({ error: "Data tidak lengkap" });
   }
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwIKKkvlgF51sEoZnXuN3shCRQ4W8VjPS7558lJU3wlE0zqnukyUFY2ATdIcj6DMcqGcA/exec", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nama,
-        no_wa,
-        alamat, // ✅ ditambahkan
-        barang,
-        tanggal_ambil,
-        tanggal_kembali,
-        lama_sewa,
-        total_harga
-      }),
-    });
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbwtiBzuOPSSgnTdzbBPSAklCtXW2YmrzxB5ggcrySLxXomwjmVYbTO4wKBnjCWe7gHpLw/exec",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nama,
+          no_wa,
+          alamat,
+          barang,
+          detail_pesanan, // ✅ KIRIM JUGA INI
+          tanggal_ambil,
+          tanggal_kembali,
+          lama_sewa,
+          total_harga
+        }),
+      }
+    );
 
     const contentType = response.headers.get("content-type");
 
@@ -55,10 +60,7 @@ export default async function handler(req, res) {
     }
 
     const result = await response.json();
-    return res.status(200).json({
-      status: "success",
-      result
-    });
+    return res.status(200).json({ status: "success", result });
 
   } catch (error) {
     console.error("Proxy error:", error);
