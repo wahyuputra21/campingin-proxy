@@ -69,4 +69,28 @@ export default async function handler(req, res) {
       detail: error.message
     });
   }
+  const mode = req.query.mode;
+
+  if (mode === 'getstok') {
+    const targetUrl = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // ganti dengan yang doGet()
+    const response = await fetch(targetUrl);
+    const data = await response.json();
+    return res.status(200).json(data);
+  }
+
+  if (req.method === "POST") {
+    const body = req.body;
+    const googleScriptURL = "https://script.google.com/macros/s/AKfycby3w-pzV00THn9AxiXlXPI-qX7I1J0OiE05-VRaQ0C-Kx18sdvE09S71FRI3K6PJldMxQ/exec";
+
+    const response = await fetch(googleScriptURL, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const result = await response.json();
+    return res.status(200).json(result);
+  }
+
+  res.status(405).json({ error: "Method not allowed" });
 }
