@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   // Cek apakah ini permintaan GET untuk ambil stok
   if (req.method === "GET" && req.query.mode === "getstok") {
     try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycby3w-pzV00THn9AxiXlXPI-qX7I1J0OiE05-VRaQ0C-Kx18sdvE09S71FRI3K6PJldMxQ/exec");
+      const response = await fetch("https://script.google.com/macros/s/AKfycbwee_VXcBmgHPXXqxBt91_mHJ2DiPDI1E17zaCEKnpqVFTz1gbxri-efMMGRZzFhJBBKQ/exec");
       const data = await response.json();
       return res.status(200).json(data);
     } catch (err) {
@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
     try {
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycby3w-pzV00THn9AxiXlXPI-qX7I1J0OiE05-VRaQ0C-Kx18sdvE09S71FRI3K6PJldMxQ/exec",
+        "https://script.google.com/macros/s/AKfycbwee_VXcBmgHPXXqxBt91_mHJ2DiPDI1E17zaCEKnpqVFTz1gbxri-efMMGRZzFhJBBKQ/exec",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
