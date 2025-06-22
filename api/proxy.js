@@ -4,14 +4,15 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
+  if (req.method === "OPTIONS") return res.status(200).end();
 
-  // Cek apakah ini permintaan GET untuk ambil stok
-  if (req.method === "GET" && req.query.mode === "getstok") {
+  const MODE = req.query.mode;
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwee_VXcBmgHPXXqxBt91_mHJ2DiPDI1E17zaCEKnpqVFTz1gbxri-efMMGRZzFhJBBKQ/exec";
+
+  // GET: Ambil data stok
+  if (req.method === "GET" && MODE === "getstok") {
     try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbwee_VXcBmgHPXXqxBt91_mHJ2DiPDI1E17zaCEKnpqVFTz1gbxri-efMMGRZzFhJBBKQ/exec");
+      const response = await fetch(SCRIPT_URL + "?mode=getstok");
       const data = await response.json();
       return res.status(200).json(data);
     } catch (err) {
@@ -19,8 +20,19 @@ export default async function handler(req, res) {
     }
   }
 
-  // Tangani POST (pengiriman pesanan)
-  if (req.method === "POST") {
+  // GET: Ambil data pelanggan
+  if (req.method === "GET" && MODE === "listpelanggan") {
+    try {
+      const response = await fetch(SCRIPT_URL + "?mode=listpelanggan");
+      const data = await response.json();
+      return res.status(200).json(data);
+    } catch (err) {
+      return res.status(500).json({ error: "Gagal ambil data pelanggan", detail: err.message });
+    }
+  }
+
+  // POST: Pengiriman pesanan dari customer
+  if (req.method === "POST" && MODE === undefined) {
     const {
       nama,
       no_wa,
@@ -33,30 +45,26 @@ export default async function handler(req, res) {
       total_harga
     } = req.body;
 
-    // Validasi data
     if (!nama || !no_wa || !alamat || !barang || !detail_pesanan || !tanggal_ambil || !tanggal_kembali || !lama_sewa || !total_harga) {
       return res.status(400).json({ error: "Data tidak lengkap" });
     }
 
     try {
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbwee_VXcBmgHPXXqxBt91_mHJ2DiPDI1E17zaCEKnpqVFTz1gbxri-efMMGRZzFhJBBKQ/exec",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            nama,
-            no_wa,
-            alamat,
-            barang,
-            detail_pesanan,
-            tanggal_ambil,
-            tanggal_kembali,
-            lama_sewa,
-            total_harga
-          }),
-        }
-      );
+      const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nama,
+          no_wa,
+          alamat,
+          barang,
+          detail_pesanan,
+          tanggal_ambil,
+          tanggal_kembali,
+          lama_sewa,
+          total_harga
+        })
+      });
 
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
@@ -72,6 +80,22 @@ export default async function handler(req, res) {
     }
   }
 
-  // Kalau method bukan POST atau GET mode=getstok
+  // POST: Admin input pembayaran
+  if (req.method === "POST" && MODE === "pembayaran") {
+    try {
+      const response = await fetch(SCRIPT_URL + "?mode=pembayaran", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(req.body)
+      });
+
+      const result = await response.json();
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(500).json({ error: "Gagal input pembayaran", detail: err.message });
+    }
+  }
+
+  // Jika tidak cocok
   return res.status(405).json({ error: "Method not allowed" });
 }
