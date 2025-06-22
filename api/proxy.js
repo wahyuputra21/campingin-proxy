@@ -20,16 +20,17 @@ export default async function handler(req, res) {
     }
   }
 
-  // GET: Ambil data pelanggan
-  if (req.method === "GET" && MODE === "listpelanggan") {
-    try {
-      const response = await fetch(SCRIPT_URL + "?mode=listpelanggan");
-      const data = await response.json();
-      return res.status(200).json(data);
-    } catch (err) {
-      return res.status(500).json({ error: "Gagal ambil data pelanggan", detail: err.message });
-    }
+// GET: Ambil data pelanggan
+if (req.method === "GET" && req.query.mode === "listpelanggan") {
+  try {
+    const response = await fetch(SCRIPT_URL + "?mode=listpelanggan");
+    const data = await response.json();
+    return res.status(200).json(data);
+  } catch (err) {
+    return res.status(500).json({ error: "Gagal ambil data pelanggan", detail: err.message });
   }
+}
+
 
   // POST: Pengiriman pesanan dari customer
   if (req.method === "POST" && MODE === undefined) {
