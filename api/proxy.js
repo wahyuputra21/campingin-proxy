@@ -43,7 +43,8 @@ if (req.method === "GET" && req.query.mode === "listpelanggan") {
       tanggal_ambil,
       tanggal_kembali,
       lama_sewa,
-      total_harga
+      total_harga,
+      catatan 
     } = req.body;
 
     if (!nama || !no_wa || !alamat || !barang || !detail_pesanan || !tanggal_ambil || !tanggal_kembali || !lama_sewa || !total_harga) {
@@ -63,7 +64,8 @@ if (req.method === "GET" && req.query.mode === "listpelanggan") {
           tanggal_ambil,
           tanggal_kembali,
           lama_sewa,
-          total_harga
+          total_harga,
+          catatan 
         })
       });
 
@@ -82,9 +84,9 @@ if (req.method === "GET" && req.query.mode === "listpelanggan") {
   }
 
   // POST: Admin input pembayaran
-  if (req.method === "POST" && MODE === "pembayaran") {
+  if (req.method === "POST" && MODE === "updatepembayaran") {
     try {
-      const response = await fetch(SCRIPT_URL + "?mode=pembayaran", {
+      const response = await fetch(SCRIPT_URL + "?mode=updatepembayaran", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(req.body)
