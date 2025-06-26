@@ -83,6 +83,23 @@ if (req.method === "GET" && req.query.mode === "listpelanggan") {
     }
   }
 
+  // POST: Update status alur (misal ke "Cuci", "Selesai", dll)
+  if (req.method === "POST" && MODE === "updatealur") {
+    try {
+      const response = await fetch(SCRIPT_URL + "?mode=updatealur", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(req.body),
+      });
+  
+      const result = await response.json();
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(500).json({ error: "Gagal update status alur", detail: err.message });
+    }
+  }
+
+
   // POST: Admin input pembayaran
   if (req.method === "POST" && MODE === "updatepembayaran") {
     try {
