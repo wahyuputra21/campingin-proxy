@@ -99,6 +99,21 @@ if (req.method === "GET" && req.query.mode === "listpelanggan") {
     }
   }
 
+// POST: Barang rusak → kirim ke tab Reparasi
+if (req.method === "POST" && MODE === "reparasi") {
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbxybQukCHsCn4hQ37-DSoumrGAU30sIz0S5QgXmDm2PED-08WjAOYZS3GdlgyNfHGTXoQ/exec?mode=reparasi", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body)
+    });
+
+    const result = await response.json();
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({ error: "Gagal kirim data reparasi", detail: err.message });
+  }
+}
 
   // POST: Admin input pembayaran
   if (req.method === "POST" && MODE === "updatepembayaran") {
