@@ -31,6 +31,16 @@ if (req.method === "GET" && req.query.mode === "listpelanggan") {
   }
 }
 
+// GET: Ambil data reparasi
+if (req.method === "GET" && MODE === "listreparasi") {
+  try {
+    const response = await fetch(SCRIPT_URL + "?mode=listreparasi");
+    const data = await response.json();
+    return res.status(200).json(data);
+  } catch (err) {
+    return res.status(500).json({ error: "Gagal ambil data reparasi", detail: err.message });
+  }
+}
 
   // POST: Pengiriman pesanan dari customer
   if (req.method === "POST" && MODE === undefined) {
