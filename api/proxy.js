@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const MODE = req.query.mode;
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIxj7eU4Z3t9xvR9NZL1ECgigjYK5lgPPw-RXlvTtFn9a4EXFUbQ5YRo1Mu-It94k4-Q/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0LNSt9YzXUoVuuCPLjAe9AyC1aDkNRZIZdFjuc-heiyA6r-LCMCBAKDI0C-RRfYwlwg/exec";
 
   // GET: Ambil data stok
   if (req.method === "GET" && MODE === "getstok") {
@@ -112,7 +112,7 @@ if (req.method === "GET" && MODE === "listreparasi") {
 // POST: Barang rusak → kirim ke tab Reparasi
 if (req.method === "POST" && MODE === "reparasi") {
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwIxj7eU4Z3t9xvR9NZL1ECgigjYK5lgPPw-RXlvTtFn9a4EXFUbQ5YRo1Mu-It94k4-Q/exec?mode=reparasi", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycby0LNSt9YzXUoVuuCPLjAe9AyC1aDkNRZIZdFjuc-heiyA6r-LCMCBAKDI0C-RRfYwlwg/exec?mode=reparasi", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body)
