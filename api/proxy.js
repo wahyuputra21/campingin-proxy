@@ -112,7 +112,7 @@ if (req.method === "GET" && MODE === "listreparasi") {
 // POST: Barang rusak → kirim ke tab Reparasi
 if (req.method === "POST" && MODE === "reparasi") {
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwjEkIHS6ElGD0DJtMw4yNhKJZOLvjrUbywOSRxxnP7DYEvCwxToVnC4_WtDFq9j7HN/exec?mode=reparasi", {
+    const response = await fetch(SCRIPT_URL + "?mode=reparasi", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body)
