@@ -126,21 +126,37 @@ if (req.method === "POST" && MODE === "reparasi") {
 }
 
   // POST: Admin input pembayaran
-  if (req.method === "POST" && MODE === "updatepembayaran") {
-    try {
-      const response = await fetch(SCRIPT_URL + "?mode=updatepembayaran", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(req.body)
-      });
+if (req.method === "POST" && MODE === "updatepembayaran") {
+  try {
+    const response = await fetch(SCRIPT_URL + "?mode=updatepembayaran", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body)
+    });
 
-      const result = await response.json();
-      return res.status(200).json(result);
-    } catch (err) {
-      return res.status(500).json({ error: "Gagal input pembayaran", detail: err.message });
-    }
+    const result = await response.json();
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({ error: "Gagal input pembayaran", detail: err.message });
   }
-
-  // Jika tidak cocok
-  return res.status(405).json({ error: "Method not allowed" });
 }
+
+// ✅ TAMBAHKAN INI DI SINI
+if (req.method === "POST" && MODE === "kembalistok") {
+  try {
+    const response = await fetch(SCRIPT_URL + "?mode=kembalistok", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body)
+    });
+
+    const result = await response.json();
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({ error: "Gagal update stok kembali", detail: err.message });
+  }
+}
+
+// Jika tidak cocok
+return res.status(405).json({ error: "Method not allowed" });
+
