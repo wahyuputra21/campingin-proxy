@@ -143,22 +143,6 @@ if (req.method === "POST" && MODE === "updatepembayaran") {
 return res.status(405).json({ error: "Method not allowed" });
 }
 
-// ✅ TAMBAHKAN INI DI SINI
-if (req.method === "POST" && MODE === "kembalistok") {
-  try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwjEkIHS6ElGD0DJtMw4yNhKJZOLvjrUbywOSRxxnP7DYEvCwxToVnC4_WtDFq9j7HN/exec?mode=kembalistok", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(req.body)
-    });
-
-    const result = await response.json();
-    return res.status(200).json(result);
-  } catch (err) {
-    return res.status(500).json({ error: "Gagal update stok kembali", detail: err.message });
-  }
-
-}
 
 
 
