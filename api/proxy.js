@@ -125,7 +125,7 @@ if (req.method === "POST" && MODE === "reparasi") {
   }
 }
 
-  // POST: Admin input pembayaran
+ // POST: Admin input pembayaran
 if (req.method === "POST" && MODE === "updatepembayaran") {
   try {
     const response = await fetch(SCRIPT_URL + "?mode=updatepembayaran", {
@@ -139,8 +139,9 @@ if (req.method === "POST" && MODE === "updatepembayaran") {
   } catch (err) {
     return res.status(500).json({ error: "Gagal input pembayaran", detail: err.message });
   }
+}
 
-  // POST: Kembalikan stok barang aman
+// ✅ POST: Kembalikan stok barang aman — HARUS DI LUAR blok `updatepembayaran`
 if (req.method === "POST" && MODE === "kembalistok") {
   try {
     const response = await fetch(SCRIPT_URL + "?mode=kembalistok", {
@@ -158,7 +159,7 @@ if (req.method === "POST" && MODE === "kembalistok") {
 
     // Jika tidak cocok
 return res.status(405).json({ error: "Method not allowed" });
-}
+
 
 
 
