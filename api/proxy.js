@@ -139,6 +139,23 @@ if (req.method === "POST" && MODE === "updatepembayaran") {
   } catch (err) {
     return res.status(500).json({ error: "Gagal input pembayaran", detail: err.message });
   }
+
+  // POST: Kembalikan stok barang aman
+if (req.method === "POST" && MODE === "kembalistok") {
+  try {
+    const response = await fetch(SCRIPT_URL + "?mode=kembalistok", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body)
+    });
+
+    const result = await response.json();
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({ error: "Gagal kembalikan stok", detail: err.message });
+  }
+}
+
     // Jika tidak cocok
 return res.status(405).json({ error: "Method not allowed" });
 }
