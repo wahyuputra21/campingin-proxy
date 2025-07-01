@@ -144,7 +144,7 @@ if (req.method === "POST" && MODE === "updatepembayaran") {
 // ✅ TAMBAHKAN INI DI SINI
 if (req.method === "POST" && MODE === "kembalistok") {
   try {
-    const response = await fetch(SCRIPT_URL + "?mode=kembalistok", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwjEkIHS6ElGD0DJtMw4yNhKJZOLvjrUbywOSRxxnP7DYEvCwxToVnC4_WtDFq9j7HN/exec?mode=kembalistok", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body)
