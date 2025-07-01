@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const MODE = req.query.mode;
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxuds0OGOf6EJ3cACUbgQcZgM5Egs4-RMeoGpkkmhcbPMvnf0IW3-9ole2-XiLcYZWklA/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyza8S_HujZw5xN7b-5Ey6UGP-P93ZyHUYkJs8Xmw5vBWb15rteZEz6zXI22f5w5ybMPQ/exec";
 
   // GET: Ambil data stok
   if (req.method === "GET" && MODE === "getstok") {
