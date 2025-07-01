@@ -139,6 +139,8 @@ if (req.method === "POST" && MODE === "updatepembayaran") {
   } catch (err) {
     return res.status(500).json({ error: "Gagal input pembayaran", detail: err.message });
   }
+    // Jika tidak cocok
+return res.status(405).json({ error: "Method not allowed" });
 }
 
 // ✅ TAMBAHKAN INI DI SINI
@@ -155,8 +157,7 @@ if (req.method === "POST" && MODE === "kembalistok") {
   } catch (err) {
     return res.status(500).json({ error: "Gagal update stok kembali", detail: err.message });
   }
-  // Jika tidak cocok
-return res.status(405).json({ error: "Method not allowed" });
+
 }
 
 
